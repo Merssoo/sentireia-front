@@ -14,9 +14,6 @@ Desenvolvido com Angular e Angular Material, este frontend se conecta à API cen
 - **📩 Reenvio de Código**  
   Solicitação de um novo código de confirmação.
 
-- **📋 Gestão de Dados**  
-  Exibição de lista de locais cadastrados com **paginação** (`mat-paginator`).
-
 - **🎨 Interface Moderna**  
   Layout consistente e responsivo utilizando **Angular Material**.
 
@@ -24,7 +21,7 @@ Desenvolvido com Angular e Angular Material, este frontend se conecta à API cen
   Mensagens de sucesso e erro em tempo real com **MatSnackBar** e carregamento visual com **mat-spinner**.
 
 - **🌐 Comunicação com API REST**  
-  Estrutura de serviços como `AuthService` e `LocalService` para integração com o backend.
+  Estrutura de serviços como `AuthService` para integração com o backend.
 
 ---
 
