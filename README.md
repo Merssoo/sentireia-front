@@ -1,27 +1,65 @@
-# FronEnd
+# 📌 SentireIA Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+Este projeto é a interface de usuário central da SentireIA, atuando como a camada de apresentação que orquestra a interação com os diversos serviços da plataforma. Seu objetivo principal é fornecer uma experiência de usuário intuitiva e segura para a visualização e gestão de dados essenciais de clínicas psiquiátricas e psicológicas, como informações de pacientes, profissionais e agendamentos.
 
-## Development server
+Desenvolvido com Angular e Angular Material, este frontend se conecta à API central para traduzir a orquestração e robustez do backend em uma interface interativa e amigável, facilitando a administração de todas as operações da clínica.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+## 🚀 Funcionalidades Principais
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- **🔐 Autenticação de Usuário**  
+  Cadastro, login e confirmação de conta por código.
 
-## Build
+- **📩 Reenvio de Código**  
+  Solicitação de um novo código de confirmação.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **📋 Gestão de Dados**  
+  Exibição de lista de locais cadastrados com **paginação** (`mat-paginator`).
 
-## Running unit tests
+- **🎨 Interface Moderna**  
+  Layout consistente e responsivo utilizando **Angular Material**.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- **💬 Feedback ao Usuário**  
+  Mensagens de sucesso e erro em tempo real com **MatSnackBar** e carregamento visual com **mat-spinner**.
 
-## Running end-to-end tests
+- **🌐 Comunicação com API REST**  
+  Estrutura de serviços como `AuthService` e `LocalService` para integração com o backend.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+---
 
-## Further help
+## 🛠 Tecnologias Utilizadas
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- **Framework:** Angular  
+- **Linguagem:** TypeScript  
+- **Estilização:** Angular Material  
+- **HTTP Requests:** HttpClient  
+- **Gerenciamento de Estado:** RxJS  
+- **Gerenciamento de Pacotes:** npm  
+
+---
+
+## 📋 Pré-requisitos
+
+Antes de iniciar, você precisa ter instalado:
+
+- **[Node.js](https://nodejs.org/)** (versão 14 ou superior)  
+- **npm** (vem com o Node.js)  
+- **Angular CLI**  
+  ```bash
+  npm install -g @angular/cli
+- **Backend:** O projeto depende de uma API de backend em execução. Certifique-se de que a API SentireIA esteja rodando em http://localhost:8080 ou ajuste o ambiente de acordo.
+
+## Primeiros Passos
+Siga estas instruções para configurar e rodar o projeto em sua máquina local.
+
+- **Clonar o Repositório**
+  ```bash
+  git clone https://github.com/Merssoo/sentireia-front.git
+  cd sentireia-front
+- **Instalar as Dependências**
+  ```bash 
+  npm install
+  
+- **Executar o Servidor de Desenvolvimento**:
+  Execute **ng serve** para iniciar o servidor de desenvolvimento. Navegue até http://localhost:4200/. A aplicação recarregará automaticamente se você fizer alterações nos arquivos-fonte.
