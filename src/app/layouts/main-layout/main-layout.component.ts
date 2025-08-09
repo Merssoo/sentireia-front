@@ -1,5 +1,6 @@
 import { AuthService } from './../../services/auth/auth.service';
 import { Component } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,7 +9,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./main-layout.component.scss']
 })
 export class MainLayoutComponent {
-  constructor(private authService: AuthService, private router: Router) {}
+  isHandset = false;
+
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private authService: AuthService,
+    private router: Router
+  ) {
+    this.breakpointObserver.observe([Breakpoints.Handset])
+      .subscribe(result => {
+        this.isHandset = result.matches;
+      });
+  }
 
   logout(): void {
     this.authService.logout();

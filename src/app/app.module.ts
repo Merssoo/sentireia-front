@@ -22,7 +22,12 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ConfirmCodeComponent } from './auth/confirm-code/confirm-code.component';
 import { ResendCodeComponent } from './auth/resend-code/resend-code.component'; 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule, MatNavList } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -47,7 +52,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatDatepickerModule,
     MatNativeDateModule ,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule, 
+    MatToolbarModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatDividerModule,
+    MatListModule
   ],
   providers: [{
       provide: HTTP_INTERCEPTORS,

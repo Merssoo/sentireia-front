@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'confirm-code', component: ConfirmCodeComponent, canActivate : [authGuard] },
   { path: 'resend-code', component: ResendCodeComponent},
   {
-    path: 'dashboard',
+    path: '',
     component: MainLayoutComponent,
     canActivate: [authGuard],
     children: [

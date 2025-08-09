@@ -1,0 +1,83 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #3b5f4f;
+}
+
+.toolbar-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+
+.logo {
+  font-family: 'Georgia', serif; 
+  font-size: 3rem;
+  color: #94b6a5; 
+}
+
+.spacer {
+  flex: 1;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+  margin-right: 610px;
+  font-size: small;
+}
+
+.nav-button {
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+}
+
+.app-container {
+  height: 100vh;
+  background-color: #E3F2FD; // azul claro ou o tom que preferir
+  background-image: linear-gradient(to bottom, #d2e9da, #f7fbf8);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.nav-links button {
+  font-size: 16px;
+  margin: 0 8px;
+}
+
+.app-sidenav {
+  background-color: #3b5f4f; 
+  width: 200px;
+}
+
+::ng-deep .mat-mdc-list-item .mdc-list-item__content,
+  ::ng-deep .mat-mdc-list-item .mdc-list-item__primary-text {
+    color: white !important;
+}
+
