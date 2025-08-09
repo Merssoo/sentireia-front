@@ -1,0 +1,43 @@
+<div class="login-container">
+  <div class="logo">
+    <h1>SentireIA</h1>
+  </div>
+
+
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title class="mat-card-title">Confirme sua Conta</mat-card-title>
+    </mat-card-header>
+
+   <mat-card-content>
+      <p style="text-align: center; margin-bottom: 20px;">
+        Digite o código de 6 dígitos que enviamos para o seu e-mail.
+      </p>
+      
+      <form [formGroup]="confirmForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Código de Confirmação</mat-label>
+          <input matInput type="number" formControlName="code" required maxlength="6">
+          <mat-error *ngIf="confirmForm.get('code')?.hasError('required')">
+            O código é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="confirmForm.get('code')?.hasError('pattern')">
+            O código deve ter 6 dígitos.
+          </mat-error>
+        </mat-form-field>
+        
+        <button mat-flat-button color="primary" type="submit" [disabled]="confirmForm.invalid">
+          <span *ngIf="!isLoading">Confirmar</span>
+          <mat-spinner *ngIf="isLoading" [diameter]="30"></mat-spinner>
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="register-link">
+      <span>Não recebeu o código? <a href="javascript:void(0)" (click)="resendCode()">
+        <span *ngIf="!isLoading">Reenviar Código</span>
+        <mat-spinner *ngIf="isLoading" [diameter]="20"></mat-spinner>
+      </a></span>
+    </mat-card-actions>
+  </mat-card>
+</div>

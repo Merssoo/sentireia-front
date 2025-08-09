@@ -1,0 +1,71 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f7fbf8; /* Cor de fundo da imagem */
+  background-image: linear-gradient(to bottom, #d2e9da, #f7fbf8); /* Gradiente suave */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.logo h1 {
+  font-family: 'Georgia', serif; /* Ou uma fonte similar */
+  font-size: 3rem;
+  color: #3b5f4f; /* Cor do texto do logo */
+  margin-bottom: 25px; /* Aumente este valor */
+  text-align: center;
+  position: relative;
+}
+
+
+
+.login-card {
+  background-color: rgb(255, 255, 255);
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.full-width-input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.mat-card-header {
+  text-align: center;
+}
+
+.mat-card-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #3b5f4f;
+  margin-bottom: 20px;
+}
+
+button[mat-flat-button] {
+  width: 100%;
+  padding: 10px 0;
+  background-color: #3b5f4f; /* Cor do botão */
+  color: white;
+  font-size: 1rem;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.9rem;
+}
+
+.register-link a {
+  color: #3b5f4f;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.link-change-password {
+  margin-left: 33px;
+}

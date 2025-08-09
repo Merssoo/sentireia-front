@@ -1,0 +1,48 @@
+<div class="login-container">
+  <div class="logo">
+    <h1>SentireIA</h1>
+  </div>
+
+
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title class="mat-card-title">Entrar</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required>
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+            O email é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+            Email inválido.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" formControlName="password" required>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+            A senha é obrigatória.
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid">
+          <span *ngIf="!isLoading">Entrar</span>
+          <mat-spinner *ngIf="isLoading" [diameter]="30"></mat-spinner>
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="register-link">
+      <span>Não tem uma conta? <a routerLink="/cadastro">Cadastre-se</a></span>
+      <span>Sua conta não esta ativa? <a routerLink="/resend-code">Reenviar novo codigo</a></span>
+    </mat-card-actions>
+    <mat-card-actions class="register-link">
+      <span class="link-change-password">Esqueceu sua senha? <a routerLink="/cadastro">Atualize sua senha</a></span>
+    </mat-card-actions>
+  </mat-card>
+</div>

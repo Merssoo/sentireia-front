@@ -1,0 +1,34 @@
+<div class="login-container">
+  <div class="logo">
+    <h1>SentireIA</h1>
+  </div>
+
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title class="mat-card-title">Reenviar codígo de confrimação</mat-card-title>
+    </mat-card-header>
+
+   <mat-card-content>
+      <form [formGroup]="resendForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required>
+          <mat-error *ngIf="resendForm.get('email')?.hasError('required')">
+            O email é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="resendForm.get('email')?.hasError('email')">
+            Email inválido.
+          </mat-error>
+        </mat-form-field>
+        
+        <button mat-flat-button color="primary" type="submit" [disabled]="resendForm.invalid">
+          <span *ngIf="!isLoading">Confirmar</span>
+          <mat-spinner *ngIf="isLoading" [diameter]="30"></mat-spinner>
+        </button>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="register-link">
+      <span>Sua conta já esta ativa? <a routerLink="/login">Fazer Login</a></span>
+    </mat-card-actions>
+  </mat-card>
+</div>

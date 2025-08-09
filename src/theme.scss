@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// 1. Definição das paletas de cores
+$custom-primary: mat.define-palette(mat.$green-palette, 700);
+$custom-accent: mat.define-palette(mat.$light-green-palette, A200, A100, A400);
+$custom-warn: mat.define-palette(mat.$red-palette);
+
+// 2. Definição do tema
+$custom-theme: mat.define-light-theme((
+  color: (
+    primary: $custom-primary,
+    accent: $custom-accent,
+    warn: $custom-warn,
+  )
+));
+
+// 3. Inclusão do tema nos componentes
+@include mat.all-component-themes($custom-theme);

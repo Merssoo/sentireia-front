@@ -1,0 +1,98 @@
+<div class="login-container">
+  <div class="logo">
+    <h1>SentireIA</h1>
+  </div>
+  <mat-card class="login-card">
+    <mat-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-columns">
+          <mat-form-field appearance="outline" class="form-field-column">
+            <mat-label>Nome*</mat-label>
+            <input matInput type="text" formControlName="firstName" required>
+            <mat-error *ngIf="registerForm.get('firstName')?.hasError('required')">
+              O nome é obrigatório.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field-column">
+            <mat-label>Sobrenome*</mat-label>
+            <input matInput type="text" formControlName="lastName" required>
+            <mat-error *ngIf="registerForm.get('lastName')?.hasError('required')">
+              O sobrenome é obrigatório.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Data de Nascimento*</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" required>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="registerForm.get('dateOfBirth')?.hasError('required')">
+            A data de nascimento é obrigatória.
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-columns">
+          <mat-form-field appearance="outline" class="form-field-column">
+            <mat-label>Número de Telefone*</mat-label>
+            <input matInput type="tel" formControlName="phoneNumber" required>
+            <mat-error *ngIf="registerForm.get('phoneNumber')?.hasError('required')">
+              O número de telefone é obrigatório.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field-column">
+            <mat-label>CPF*</mat-label>
+            <input matInput type="text" formControlName="documentNumber" required (blur)="formatCpf()">
+            <mat-error *ngIf="registerForm.get('documentNumber')?.hasError('required')">
+              O CPF é obrigatório.
+            </mat-error>
+            <mat-error *ngIf="registerForm.get('documentNumber')?.hasError('pattern')">
+              CPF inválido.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Email*</mat-label>
+          <input matInput type="email" formControlName="email" required>
+          <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
+            O email é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
+            Email inválido.
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form-columns">
+          <mat-form-field appearance="outline" class="form-field-column">
+            <mat-label>Senha*</mat-label>
+            <input matInput type="password" formControlName="password" required>
+            <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
+              A senha é obrigatória.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field-column">
+            <mat-label>Confirme sua Senha*</mat-label>
+            <input matInput type="password" formControlName="confirm" required>
+            <mat-error *ngIf="registerForm.get('confirm')?.hasError('required')">
+              A confirmação da senha é obrigatória.
+            </mat-error>
+            <mat-error *ngIf="registerForm.hasError('passwordMismatch')">
+              As senhas não coincidem.
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="button-group">
+          <button mat-flat-button color="primary" type="submit" [disabled]="registerForm.invalid">
+            <span *ngIf="!isLoading">Cadastrar</span>
+            <mat-spinner *ngIf="isLoading" [diameter]="30"></mat-spinner>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="register-link">
+      <span>Já tem uma conta? <a routerLink="/login">Fazer Login</a></span>
+    </mat-card-actions>
+  </mat-card>
+</div>
