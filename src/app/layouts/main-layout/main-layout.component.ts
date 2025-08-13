@@ -1,5 +1,5 @@
 import { AuthService } from './../../services/auth/auth.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Router } from '@angular/router';
 
@@ -8,9 +8,19 @@ import { Router } from '@angular/router';
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss']
 })
-export class MainLayoutComponent {
+export class MainLayoutComponent implements OnInit{
   isHandset = false;
+  notifications: any[] = [];
+  newNotificationsCount: number = 0;
 
+  ngOnInit(): void {
+    this.notifications = [
+    { id: 1, message: 'Novo agendamento com Maria' },
+    { id: 2, message: 'Prontuário de João atualizado' },
+    { id: 3, message: 'Lembrete: consulta com Pedro em 1h' }
+    ];
+    this.newNotificationsCount = this.notifications.length;
+  }
   constructor(
     private breakpointObserver: BreakpointObserver,
     private authService: AuthService,
@@ -20,6 +30,11 @@ export class MainLayoutComponent {
       .subscribe(result => {
         this.isHandset = result.matches;
       });
+  }
+
+  clearNotifications(): void {
+    this.notifications = [];
+    this.newNotificationsCount = 0;
   }
 
   logout(): void {

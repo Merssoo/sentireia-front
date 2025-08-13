@@ -30,7 +30,8 @@
   <mat-sidenav-content class="app-content">
     <!-- Header fixo -->
     <mat-toolbar color="primary" class="header">
-      <span class="logo">SentireIA</span>
+      <a routerLink="/dashboard" class="link-decorator"><span class="logo">SentireIA</span></a>
+
 
       <span class="spacer"></span>
 
@@ -53,7 +54,26 @@
         </button>
       </div>
 
-      <!-- Ícone do usuário -->
+      <button mat-icon-button [matMenuTriggerFor]="notificationMenu" *ngIf="!isHandset" class="notification-icon-button">
+        <mat-icon>notifications</mat-icon>
+        <span class="notification-badge" *ngIf="newNotificationsCount > 0">{{ newNotificationsCount }}</span>
+      </button>
+      <mat-menu #notificationMenu="matMenu">
+        <div *ngIf="notifications.length > 0; else noNotifications">
+          <button mat-menu-item *ngFor="let notif of notifications">
+            <mat-icon>info</mat-icon> {{ notif.message }}
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item (click)="clearNotifications()">
+            <mat-icon>done_all</mat-icon> Marcar todas como lidas
+          </button>
+        </div>
+        <ng-template #noNotifications>
+          <button mat-menu-item disabled>
+            <mat-icon>info</mat-icon> Nenhuma notificação nova.
+          </button>
+        </ng-template>
+      </mat-menu>
       <button mat-icon-button [matMenuTriggerFor]="userMenu" *ngIf="!isHandset">
         <mat-icon>account_circle</mat-icon>
       </button>

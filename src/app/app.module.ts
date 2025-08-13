@@ -16,7 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { CadastroComponent } from './auth/cadastro/cadastro.component';
+import { CadastroComponent } from './auth/cadastro/register.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ConfirmCodeComponent } from './auth/confirm-code/confirm-code.component';
@@ -28,6 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule, MatNavList } from '@angular/material/list';
+import { DashboardComponent } from './layouts/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { MatListModule, MatNavList } from '@angular/material/list';
     MainLayoutComponent,
     CadastroComponent,
     ConfirmCodeComponent,
-    ResendCodeComponent
+    ResendCodeComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

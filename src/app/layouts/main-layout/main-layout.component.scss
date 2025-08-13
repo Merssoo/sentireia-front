@@ -76,6 +76,30 @@
   width: 200px;
 }
 
+.link-decorator {
+  text-decoration: none;
+}
+
+.notification-icon-button {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
 ::ng-deep .mat-mdc-list-item .mdc-list-item__content,
   ::ng-deep .mat-mdc-list-item .mdc-list-item__primary-text {
     color: white !important;

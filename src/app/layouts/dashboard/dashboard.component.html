@@ -1,0 +1,47 @@
+<div class="dashboard-header">
+  <h2>Acesse rapidamente as principais funcionalidades do sistema.</h2>
+</div>
+
+<div class="dashboard-grid">
+
+  <mat-card class="dashboard-card" (click)="goToRoute('/cadastro')">
+    <mat-card-content>
+      <div class="card-icon-container">
+        <mat-icon fontIcon="people"></mat-icon>
+      </div>
+      <h2>Cadastro</h2>
+      <p>Adicionar novos pacientes ao sistema</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="dashboard-card" (click)="goToRoute('/cadastro')">
+    <mat-card-content>
+      <div class="card-icon-container">
+        <mat-icon fontIcon="file_copy"></mat-icon>
+      </div>
+      <h2>Prontuários</h2>
+      <p>Gerenciar informações dos pacientes</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="dashboard-card" (click)="goToRoute('/cadastro')">
+    <mat-card-content>
+      <div class="card-icon-container">
+        <mat-icon fontIcon="calendar_today"></mat-icon>
+      </div>
+      <h2>Agendamentos</h2>
+      <p>Marcar e organizar consultas</p>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="dashboard-card" (click)="goToRoute('/cadastro')">
+    <mat-card-content>
+      <div class="card-icon-container">
+        <mat-icon fontIcon="more_horiz"></mat-icon>
+      </div>
+      <h2>Outros</h2>
+      <p>Funções adicionais e ferramentas</p>
+    </mat-card-content>
+  </mat-card>
+
+</div>

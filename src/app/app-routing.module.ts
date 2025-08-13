@@ -3,9 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './auth/login/login.component';
 import { authGuard } from './guards/auth.guard';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { CadastroComponent } from './auth/cadastro/cadastro.component';
+import { CadastroComponent } from './auth/cadastro/register.component';
 import { ConfirmCodeComponent } from './auth/confirm-code/confirm-code.component';
 import { ResendCodeComponent } from './auth/resend-code/resend-code.component';
+import { DashboardComponent } from './layouts/dashboard/dashboard.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [authGuard],
     children: [
+      { path: 'dashboard', component: DashboardComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
