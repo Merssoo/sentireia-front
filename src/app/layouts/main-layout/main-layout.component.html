@@ -59,7 +59,10 @@
         <span class="notification-badge" *ngIf="newNotificationsCount > 0">{{ newNotificationsCount }}</span>
       </button>
       <mat-menu #notificationMenu="matMenu">
-        <div *ngIf="notifications.length > 0; else noNotifications">
+        <div *ngIf="isLoading" style="display: flex; justify-content: center; padding: 16px;">
+          <mat-spinner diameter="30"></mat-spinner>
+        </div>
+        <div *ngIf="!isLoading && notifications.length > 0">
           <button mat-menu-item *ngFor="let notif of notifications">
             <mat-icon>info</mat-icon> {{ notif.message }}
           </button>
@@ -68,11 +71,12 @@
             <mat-icon>done_all</mat-icon> Marcar todas como lidas
           </button>
         </div>
-        <ng-template #noNotifications>
+        <!-- Mostra a mensagem de 'nenhuma notificação' se não estiver carregando e a lista estiver vazia -->
+        <div *ngIf="!isLoading && notifications.length === 0">
           <button mat-menu-item disabled>
             <mat-icon>info</mat-icon> Nenhuma notificação nova.
           </button>
-        </ng-template>
+        </div>
       </mat-menu>
       <button mat-icon-button [matMenuTriggerFor]="userMenu" *ngIf="!isHandset">
         <mat-icon>account_circle</mat-icon>
