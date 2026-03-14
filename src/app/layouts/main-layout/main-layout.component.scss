@@ -105,3 +105,15 @@
     color: white !important;
 }
 
+
+// Adicionado para responsividade entre 961px e 1200px
+@media (max-width: 1200px) {
+  .nav-links {
+    display: none !important;
+  }
+  .notification-icon-button,
+  [mat-menu-trigger-for="userMenu"] {
+    display: none !important;
+  }
+}
+

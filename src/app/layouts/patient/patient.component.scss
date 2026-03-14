@@ -1,0 +1,114 @@
+.main-container {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.header-section {
+    text-align: center;
+}
+
+.page-title {
+    color: #333;
+    margin: 0;
+}
+
+button[mat-raised-button] {
+  background-color: #3b5f4f; 
+  color: white;
+}
+
+.cadastro {
+    margin-bottom: 20px;
+}
+
+.page-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 8px;
+}
+
+.spinner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 410px;
+    text-align: center;
+
+    p {
+        margin-top: 10px;
+        font-weight: 500;
+        color: #555;
+    }
+}
+
+.content-container {
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+    gap: 24px;
+    width: 100%;
+    max-width: 1500px;
+}
+
+.form-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-card,
+.list-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.full-width-field {
+    width: 100%;
+}
+
+.edit-button {
+    color: #2196F3;
+}
+
+.delete-button {
+    color: #F44336;
+}
+
+.filter-field {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .content-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 16px;
+    max-width: none;
+  }
+
+  .form-card,
+  .list-card {
+    width: 100%;
+  }
+
+  .list-card mat-card-content {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px;
+    width: 100%;
+    display: block;
+  }
+
+  .col-email,
+  .col-phoneNumber,
+  .col-instagram,
+  .col-twitter {
+    display: none !important;
+  }
+}

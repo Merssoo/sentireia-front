@@ -7,6 +7,7 @@ import { CadastroComponent } from './auth/cadastro/register.component';
 import { ConfirmCodeComponent } from './auth/confirm-code/confirm-code.component';
 import { ResendCodeComponent } from './auth/resend-code/resend-code.component';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
+import { PatientComponent } from './layouts/patient/patient.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'patient', component: PatientComponent},
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

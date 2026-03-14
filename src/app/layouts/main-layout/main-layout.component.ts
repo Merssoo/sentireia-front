@@ -28,7 +28,7 @@ export class MainLayoutComponent implements OnInit{
     private notificationService: NotificationService,
     private snackBar: MatSnackBar
   ) {
-    this.breakpointObserver.observe([Breakpoints.Handset])
+    this.breakpointObserver.observe(["(max-width: 1200px)"])
       .subscribe(result => {
         this.isHandset = result.matches;
       });

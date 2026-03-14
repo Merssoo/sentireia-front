@@ -29,6 +29,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule, MatNavList } from '@angular/material/list';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
+import { PatientComponent } from './layouts/patient/patient.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -38,7 +42,8 @@ import { DashboardComponent } from './layouts/dashboard/dashboard.component';
     CadastroComponent,
     ConfirmCodeComponent,
     ResendCodeComponent,
-    DashboardComponent
+    DashboardComponent,
+    PatientComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +64,10 @@ import { DashboardComponent } from './layouts/dashboard/dashboard.component';
     MatMenuModule,
     MatSidenavModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [{
       provide: HTTP_INTERCEPTORS,

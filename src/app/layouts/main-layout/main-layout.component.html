@@ -5,7 +5,7 @@
       <a mat-list-item routerLink="/dashboard" (click)="sidenav.close()">
         <mat-icon>dashboard</mat-icon> Dashboard
       </a>
-      <a mat-list-item routerLink="/cadastro" (click)="sidenav.close()">
+      <a mat-list-item routerLink="/patient" (click)="sidenav.close()">
         <mat-icon>people</mat-icon> Pacientes
       </a>
       <a mat-list-item routerLink="/prontuarios" (click)="sidenav.close()">
@@ -40,7 +40,7 @@
       </button>
       <!-- Menu para telas grandes -->
       <div class="nav-links" *ngIf="!isHandset">
-        <button mat-button routerLink="/cadastro">
+        <button mat-button routerLink="/patient">
           <mat-icon>people</mat-icon> Pacientes
         </button>
         <button mat-button routerLink="/prontuarios">
