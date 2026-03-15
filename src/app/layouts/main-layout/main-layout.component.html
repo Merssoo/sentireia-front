@@ -35,9 +35,6 @@
 
       <span class="spacer"></span>
 
-      <button mat-icon-button (click)="sidenav.toggle()" class="menu-button" *ngIf="isHandset">
-        <mat-icon>menu</mat-icon>
-      </button>
       <!-- Menu para telas grandes -->
       <div class="nav-links" *ngIf="!isHandset">
         <button mat-button routerLink="/patient">
@@ -53,6 +50,12 @@
           <mat-icon>more_horiz</mat-icon> Outros
         </button>
       </div>
+
+      <span class="spacer"></span>
+
+      <button mat-icon-button (click)="sidenav.toggle()" class="menu-button" *ngIf="isHandset">
+        <mat-icon>menu</mat-icon>
+      </button>
 
       <button mat-icon-button [matMenuTriggerFor]="notificationMenu" *ngIf="!isHandset" class="notification-icon-button">
         <mat-icon>notifications</mat-icon>

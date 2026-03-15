@@ -26,4 +26,16 @@ export class PatientService {
 
     return this.http.get<Page<Patient>>('/patient', { params });
   }
+
+  save(patient: Patient): Observable<Patient> {
+    return this.http.post<Patient>('/patient', patient);
+  }
+
+  update(patient: Patient): Observable<Patient> {
+    return this.http.put<Patient>(`/patient`, patient);
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`/patient/${id}`);
+  }
 }
