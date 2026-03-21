@@ -15,6 +15,7 @@ export interface Patient {
   age: number;
   email: string;
   phoneNumber: string;
+  patientName: string;
   instagram?: string;
   twitter?: string;
   isDeleting?: boolean; // Controle visual de exclusão
@@ -96,7 +97,7 @@ export class PatientComponent implements AfterViewInit, OnInit {
         this.isLoadingResults = false;
         this.resultsLength = data.totalElements;
         this.dataSource.data = data.content;
-        
+
         // Sincroniza as variáveis com os dados reais retornados pela API
         this.pageIndex = data.number;
         this.pageSize = data.size;

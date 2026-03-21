@@ -44,6 +44,8 @@ $white: #ffffff;
   }
 }
 
+
+
 .header-text {
   .page-title {
     font-size: 1.8rem;
@@ -283,4 +285,46 @@ $white: #ffffff;
   text-align: center;
   mat-icon { font-size: 64px; width: 64px; height: 64px; color: #ccc; }
   h4 { color: #555; }
+}
+.header-info-group {
+  display: flex;
+  align-items: center; // Alinha verticalmente nome e data
+  gap: 8px; // Cria o espaçamento automático entre os elementos internos
+  flex-wrap: wrap;
+
+  .patient-name-label {
+    font-weight: 700;
+    color: $primary-green;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .date-text {
+    font-size: 0.85rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .separator {
+      color: #ccc;
+      font-weight: normal;
+    }
+  }
+
+  .type-text {
+    width: 100%;
+    margin: 4px 0 0 0;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #333;
+  }
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
 }

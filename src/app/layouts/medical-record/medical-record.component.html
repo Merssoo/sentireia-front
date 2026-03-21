@@ -134,13 +134,24 @@
             <mat-card class="list-card timeline-card">
               <mat-card-content>
                 <div class="record-header">
-                  <div>
-                    <span class="date-text">{{ record.date | date:'dd/MM/yyyy' }}</span>
+                  <div class="header-info-group">
+                    <span class="patient-name-label" *ngIf="!patient">{{ record.patientName }}</span>
+
+                    <span class="date-text">
+      <span class="separator" *ngIf="!patient">•</span>
+                      {{ record.date | date:'dd/MM/yyyy' }}
+    </span>
+
                     <h4 class="type-text">{{ record.type }}</h4>
                   </div>
+
                   <div class="record-actions">
-                    <button mat-button class="btn-edit" (click)="editRecord(record)"><mat-icon>edit</mat-icon> Editar</button>
-                    <button mat-button class="btn-delete" (click)="deleteRecord(record.id)"><mat-icon>delete</mat-icon> Excluir</button>
+                    <button mat-button class="btn-edit" (click)="editRecord(record)">
+                      <mat-icon>edit</mat-icon> Editar
+                    </button>
+                    <button mat-button class="btn-delete" (click)="deleteRecord(record.id)">
+                      <mat-icon>delete</mat-icon> Excluir
+                    </button>
                   </div>
                 </div>
                 <p class="description">Descrição: <strong>{{ record.description }}</strong></p>
