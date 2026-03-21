@@ -1,53 +1,79 @@
 <div class="main-container">
   <div class="header-section">
-    <h2 class="page-title">Visualize, cadastre e gerencie seus pacientes</h2>
+    <div class="header-icon-container">
+      <mat-icon>group</mat-icon>
+    </div>
+    <div class="header-text">
+      <h2 class="page-title">Visualize, cadastre e gerencie seus pacientes</h2>
+    </div>
   </div>
   <div class="content-container">
 
     <mat-card class="form-card">
       <mat-card-header>
-        <mat-card-title class="cadastro">{{tipo}} Paciente</mat-card-title>
+        <mat-card-title class="cadastro">
+          <mat-icon style="vertical-align: bottom; margin-right: 8px;">person_add</mat-icon>
+          {{tipo}} Paciente
+        </mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <form [formGroup]="patientForm" (ngSubmit)="onSubmit()">
           <mat-form-field appearance="outline" class="full-width-field">
             <mat-label>Nome</mat-label>
+            <mat-icon matPrefix>person</mat-icon>
             <input matInput formControlName="name" placeholder="Digite o nome" required>
             <mat-error *ngIf="patientForm.get('name')?.hasError('required')">O nome é obrigatório</mat-error>
           </mat-form-field>
+
           <mat-form-field appearance="outline" class="full-width-field">
             <mat-label>Idade</mat-label>
+            <mat-icon matPrefix>cake</mat-icon>
             <input matInput type="number" formControlName="age" placeholder="Digite a idade" required>
             <mat-error *ngIf="patientForm.get('age')?.hasError('required')">A idade é obrigatória</mat-error>
             <mat-error *ngIf="patientForm.get('age')?.hasError('min') || patientForm.get('age')?.hasError('max')">Idade inválida</mat-error>
           </mat-form-field>
+
           <mat-form-field appearance="outline" class="full-width-field">
             <mat-label>E-mail</mat-label>
+            <mat-icon matPrefix>email</mat-icon>
             <input matInput formControlName="email" placeholder="Digite o e-mail" required>
             <mat-error *ngIf="patientForm.get('email')?.hasError('required')">O e-mail é obrigatório</mat-error>
             <mat-error *ngIf="patientForm.get('email')?.hasError('email')">E-mail inválido</mat-error>
           </mat-form-field>
+
           <mat-form-field appearance="outline" class="full-width-field">
             <mat-label>Telefone</mat-label>
+            <mat-icon matPrefix>phone</mat-icon>
             <input matInput formControlName="phoneNumber" placeholder="Digite o telefone" required>
             <mat-error *ngIf="patientForm.get('phoneNumber')?.hasError('required')">O telefone é obrigatório</mat-error>
           </mat-form-field>
+
           <mat-form-field appearance="outline" class="full-width-field">
             <mat-label>Instagram</mat-label>
+            <mat-icon matPrefix>alternate_email</mat-icon>
             <input matInput formControlName="instagram" placeholder="Digite o instagram">
           </mat-form-field>
+
           <mat-form-field appearance="outline" class="full-width-field">
             <mat-label>Twitter</mat-label>
+            <mat-icon matPrefix>share</mat-icon>
             <input matInput formControlName="twitter" placeholder="Digite o twitter">
           </mat-form-field>
-          <!-- Spinner no botão de salvar/atualizar -->
-          <button mat-raised-button color="#3b5f4f" type="submit" [disabled]="patientForm.invalid || isSaving">
-            <span *ngIf="!isSaving">{{ editingPatientId ? 'Atualizar' : 'Salvar' }}</span>
-            <mat-spinner *ngIf="isSaving" [diameter]="20" class="spinner-button"></mat-spinner>
-          </button>
-          <button mat-button type="button" class="cancel-button" *ngIf="editingPatientId" (click)="cancelEdit()" [disabled]="isSaving">
-            Cancelar
-          </button>
+
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button mat-raised-button
+                    class="btn-submit"
+                    type="submit"
+                    [disabled]="patientForm.invalid || isSaving"
+                    style="display: flex; align-items: center; gap: 8px;">
+              <mat-icon *ngIf="!isSaving">save</mat-icon>
+              <span *ngIf="!isSaving">{{ editingPatientId ? 'Atualizar' : 'Salvar' }}</span>
+              <mat-spinner *ngIf="isSaving" [diameter]="20" class="spinner-button"></mat-spinner>
+            </button>
+            <button mat-button type="button" class="cancel-button" *ngIf="editingPatientId" (click)="cancelEdit()" [disabled]="isSaving" style="display: flex; align-items: center; gap: 4px;">
+              <mat-icon>close</mat-icon> Cancelar
+            </button>
+          </div>
         </form>
       </mat-card-content>
     </mat-card>
@@ -56,6 +82,7 @@
       <mat-card-header>
         <mat-form-field appearance="outline" class="filter-field" style="width: 100%;">
           <mat-label>Pesquisar</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
           <input matInput (keyup)="applyFilter($event)" placeholder="Pesquise por nome, idade, e-mail ou telefone" #input>
         </mat-form-field>
       </mat-card-header>
@@ -66,7 +93,10 @@
 
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
-              <td mat-cell *matCellDef="let patient" [style.text-decoration]="patient.isDeleting ? 'line-through' : 'none'" [style.opacity]="patient.isDeleting ? 0.5 : 1"> {{ patient.name }} </td>
+              <td mat-cell *matCellDef="let patient" [style.text-decoration]="patient.isDeleting ? 'line-through' : 'none'" [style.opacity]="patient.isDeleting ? 0.5 : 1">
+                <mat-icon style="font-size: 16px; width: 16px; height: 16px; vertical-align: middle; margin-right: 4px; color: #777;">person</mat-icon>
+                {{ patient.name }}
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="age">
@@ -97,10 +127,13 @@
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef> Ações </th>
               <td mat-cell *matCellDef="let patient" [style.text-decoration]="patient.isDeleting ? 'line-through' : 'none'" [style.opacity]="patient.isDeleting ? 0.5 : 1">
-                <button mat-icon-button color="primary" (click)="editPatient(patient)">
+                <button mat-icon-button color="primary" [routerLink]="['/medical-record', patient.id]" matTooltip="Prontuário">
+                  <mat-icon>history_edu</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" (click)="editPatient(patient)" matTooltip="Editar">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="deletePatient(patient)">
+                <button mat-icon-button color="warn" (click)="deletePatient(patient)" matTooltip="Excluir">
                   <mat-icon>delete</mat-icon>
                 </button>
               </td>
@@ -111,16 +144,17 @@
 
             <tr class="mat-row" *matNoDataRow>
               <td class="mat-cell" colspan="7" style="text-align: center; padding: 20px;">
+                <mat-icon style="vertical-align: middle; margin-right: 8px; color: #999;">search_off</mat-icon>
                 Nenhum paciente encontrado
               </td>
             </tr>
           </table>
         </div>
 
-        <mat-paginator [length]="resultsLength" 
-                       [pageSize]="pageSize" 
+        <mat-paginator [length]="resultsLength"
+                       [pageSize]="pageSize"
                        [pageIndex]="pageIndex"
-                       [pageSizeOptions]="[10, 25, 50]" 
+                       [pageSizeOptions]="[10, 25, 50]"
                        (page)="onPageChange($event)"
                        aria-label="Selecione a página"></mat-paginator>
       </mat-card-content>

@@ -27,6 +27,10 @@ export class PatientService {
     return this.http.get<Page<Patient>>('/patient', { params });
   }
 
+  getById(id: string): Observable<Patient> {
+    return this.http.get<Patient>(`/patient/${id}`);
+  }
+
   save(patient: Patient): Observable<Patient> {
     return this.http.post<Patient>('/patient', patient);
   }

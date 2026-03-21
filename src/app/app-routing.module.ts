@@ -8,6 +8,7 @@ import { ConfirmCodeComponent } from './auth/confirm-code/confirm-code.component
 import { ResendCodeComponent } from './auth/resend-code/resend-code.component';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
 import { PatientComponent } from './layouts/patient/patient.component';
+import { MedicalRecordComponent } from './layouts/medical-record/medical-record.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'patient', component: PatientComponent},
+      { path: 'medical-record/:id', component: MedicalRecordComponent},
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },

@@ -16,7 +16,7 @@
 }
 
 button[mat-raised-button] {
-  background-color: #3b5f4f; 
+  background-color: #3b5f4f;
   color: white;
 }
 
@@ -111,4 +111,22 @@ button[mat-raised-button] {
   .col-twitter {
     display: none !important;
   }
+}
+.btn-submit {
+  background-color: #3b5f4f !important;
+  color: white !important;
+  transition: all 0.3s ease;
+  opacity: 1;
+}
+
+.btn-submit:disabled {
+  background-color: #a5b5ad !important;
+  color: #ffffff !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
+.btn-submit:disabled mat-icon {
+  color: rgba(255, 255, 255, 0.8);
 }

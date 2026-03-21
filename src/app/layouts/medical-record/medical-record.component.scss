@@ -1,0 +1,385 @@
+/* Cores do Tema SentireIA */
+$primary-green: #3b5f4f;
+$bg-light: #f4f7f5;
+$border-color: #e0e0e0;
+
+.main-container {
+  padding: 30px;
+  background-color: $bg-light;
+  min-height: 100vh;
+}
+
+.content-container {
+  display: grid;
+  grid-template-columns: 350px 1fr; /* Coluna fixa na esquerda, resto na direita */
+  gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Coluna Esquerda: Card de Dados */
+.side-info {
+  height: fit-content;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05) !important;
+
+  .patient-profile-top {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+
+    .avatar-circle {
+      background: #e8f0eb;
+      color: $primary-green;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      mat-icon { font-size: 35px; width: 35px; height: 35px; }
+    }
+
+    .age-tag {
+      color: #888;
+      font-size: 0.9rem;
+      .dot-online {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: #4caf50;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  .info-row {
+    margin-bottom: 15px;
+    label { font-size: 0.8rem; color: #999; font-weight: 600; display: block; }
+    p { margin: 0; color: #333; font-size: 0.95rem; }
+  }
+}
+
+/* Coluna Direita: Histórico */
+.action-header {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+
+  .search-bar {
+    flex: 1;
+    background: white;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    mat-icon { color: #aaa; margin-right: 10px; }
+    input { border: none; outline: none; width: 100%; height: 45px; }
+  }
+}
+
+.btn-new-record, .btn-edit-data {
+  background-color: $primary-green !important;
+  color: white !important;
+  height: 45px;
+  border-radius: 8px !important;
+}
+
+/* Timeline Style */
+.timeline-wrapper {
+  margin-top: 20px;
+
+  .timeline-item {
+    display: flex;
+    gap: 20px;
+
+    .timeline-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .icon-node {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: white;
+        border: 2px solid $primary-green;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $primary-green;
+        z-index: 2;
+      }
+      .line {
+        width: 2px;
+        flex-grow: 1;
+        background: $border-color;
+        margin-top: -5px;
+      }
+    }
+
+    .timeline-card {
+      flex: 1;
+      margin-bottom: 20px;
+      border-radius: 12px !important;
+      border: 1px solid $border-color !important;
+    }
+  }
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+
+  .date-text { font-size: 0.85rem; font-weight: 700; color: #666; }
+  .type-text { margin: 0; color: $primary-green; font-weight: 800; }
+}
+
+.header-wrapper {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.header-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  /* Importante: deve ser igual ao da content-container */
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 0 10px 0; // Ajuste o padding lateral se necessário para alinhar com o card
+}
+
+.header-icon-container {
+  background-color: $primary-green;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  mat-icon {
+    font-size: 30px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.header-text {
+  .page-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .page-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin: 0;
+  }
+}
+
+/* --- Ajuste na sua content-container existente --- */
+.content-container {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 30px;
+  max-width: 1400px; // Certifique-se que é o mesmo valor
+  margin: 0 auto;
+  /* padding: 30px; // Remova o padding se ele estiver desalinhando com o header */
+}
+.btn-edit { color: #666 !important; font-size: 0.85rem !important; }
+.btn-delete { color: #d9534f !important; font-size: 0.85rem !important; }
+
+.form-new-record {
+  background-color: #fdfdfd !important;
+  border: 1px dashed $primary-green !important; // Estilo para diferenciar novo registro
+
+  .form-title {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+  }
+}
+
+.btn-save-record {
+  background-color: $primary-green !important;
+  color: white !important;
+  padding: 0 25px !important;
+}
+
+.icon-node.empty {
+  border: 2px solid #ddd !important;
+  background: #f4f7f5 !important;
+}
+/* Estilização refinada do formulário */
+.form-new-record {
+  padding: 10px;
+  background-color: #ffffff !important;
+  border: 1px solid $border-color !important;
+  border-left: 4px solid $primary-green !important; // Destaque lateral da imagem 2
+
+  .form-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 25px;
+  }
+
+  /* Ajuste para os campos do Material ficarem mais compactos */
+  mat-form-field {
+    margin-bottom: 5px;
+  }
+}
+
+.form-actions-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 15px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 15px;
+
+  .btn-cancel {
+    color: #555;
+    font-weight: 600;
+    mat-icon { font-size: 20px; }
+  }
+
+  .btn-save-record {
+    background-color: $primary-green !important;
+    color: white !important;
+    padding: 0 30px !important;
+    border-radius: 6px !important;
+    font-weight: 600;
+  }
+}
+
+/* Garante que o indicador da timeline acompanhe o formulário */
+.icon-node.empty {
+  border: 2px solid $border-color !important;
+  background: #fff !important;
+}
+/* Estilos para forçar o layout horizontal da Imagem 2 */
+.record-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .form-row {
+    display: flex;
+    flex-direction: row; // Força horizontal
+    gap: 16px; // Espaço entre os campos
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  /* Definição das larguras proporcionais */
+  .field-half { flex: 1; } // 50% cada
+  .field-large { flex: 2; } // Ocupa o dobro do small (aprox 66%)
+  .field-small { flex: 1; } // Aprox 33%
+
+  /* Ajuste para remover margens extras do Material que quebram o alinhamento */
+  mat-form-field {
+    width: 100%;
+    .mat-mdc-form-field-subscript-wrapper {
+      display: none; // Remove o espaço reservado para erros/hints para ficar mais compacto como na imagem
+    }
+  }
+}
+
+/* Ajuste fino no card do formulário para bater com a Imagem 2 */
+.form-new-record {
+  border-left: 4px solid $primary-green !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+  border-style: solid !important; // Muda de dashed para solid para ficar igual a imagem 2
+
+  .form-title {
+    margin-bottom: 20px !important;
+  }
+}
+
+.scrollable-history-container {
+  /* Mesma cor de fundo e borda dos cards de dados */
+  background-color: #ffffff;
+  border: 1px solid $border-color;
+  border-radius: 12px; // Igual ao .side-info
+
+  /* Sombra suave igual ao mat-card para dar profundidade */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+
+  /* Configurações de Scroll */
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 25px; // Espaçamento interno generoso como no card lateral
+  margin-top: 10px;
+
+  /* Customização da barra de scroll para não poluir o visual branco */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #e0e0e0; // Cinza bem clarinho
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: $primary-green;
+  }
+}
+
+/* Ajuste na timeline dentro da div branca */
+.timeline-wrapper {
+  display: flex;
+  flex-direction: column;
+  /* Removemos o padding extra se houver para alinhar com a borda do container */
+}
+
+.empty-history-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #888;
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    color: #ccc;
+  }
+
+  h4 {
+    margin: 0;
+    font-weight: 700;
+    color: #555;
+  }
+
+  p {
+    margin: 8px 0 20px 0;
+    font-size: 0.95rem;
+  }
+
+  button {
+    border-color: $primary-green !important;
+    color: $primary-green !important;
+  }
+}

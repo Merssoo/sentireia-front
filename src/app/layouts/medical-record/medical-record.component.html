@@ -1,0 +1,143 @@
+<div class="main-container">
+  <div class="header-wrapper">
+    <div class="header-section">
+      <div class="header-icon-container">
+        <mat-icon>person</mat-icon>
+      </div>
+      <div class="header-text">
+        <h2 class="page-title">Prontuário do Paciente</h2>
+        <p class="page-subtitle">Gerencie informações clínicas e histórico</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <mat-card class="form-card side-info">
+      <mat-card-header>
+        <mat-card-title class="cadastro">Dados do Paciente</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="patient-profile-top">
+          <div class="avatar-circle"><mat-icon>person</mat-icon></div>
+          <div class="patient-name-info">
+            <h3 class="m-0">{{patient.name}}</h3>
+            <span class="age-tag">{{patient.age}} anos <span class="dot-online"></span></span>
+          </div>
+        </div>
+        <div class="patient-details-list">
+          <div class="info-row"><label>Nome:</label><p>{{patient.name}}</p></div>
+          <div class="info-row"><label>E-mail:</label><p>{{patient.email}}</p></div>
+          <div class="info-row"><label>Tel:</label><p>{{patient.phoneNumber}}</p></div>
+          <div class="info-row"><label>Instagram:</label><p>{{patient.instagram}}</p></div>
+          <div class="info-row"><label>Twitter:</label><p>{{patient.twitter}}</p></div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="history-section">
+      <div class="action-header">
+        <div class="search-bar">
+          <mat-icon>search</mat-icon>
+          <input type="text" placeholder="Buscar no prontuário..." [formControl]="searchControl">
+        </div>
+        <button mat-raised-button class="btn-new-record" (click)="toggleForm()">
+          <mat-icon>add</mat-icon> Novo Registro
+        </button>
+      </div>
+
+      <h3 class="list-title">Histórico do Prontuário</h3>
+
+      <div class="scrollable-history-container" (scroll)="onScroll($event)">
+        <div class="timeline-wrapper">
+
+          <div class="timeline-item" *ngIf="showForm">
+            <div class="timeline-indicator">
+              <div class="icon-node empty"><mat-icon>add</mat-icon></div>
+              <div class="line"></div>
+            </div>
+            <mat-card class="list-card timeline-card form-new-record">
+              <mat-card-content>
+                <h4 class="form-title">Novo Registro no Prontuário</h4>
+                <form [formGroup]="recordForm" class="record-form-container">
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="field-half">
+                      <mat-label>Tipo de Atendimento</mat-label>
+                      <mat-select formControlName="type">
+                        <mat-option value="Consulta">Consulta</mat-option>
+                        <mat-option value="Retorno">Retorno</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="field-half">
+                      <mat-label>Data</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName="date">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="field-large">
+                      <mat-label>Descrição do Atendimento</mat-label>
+                      <textarea matInput rows="1" placeholder="Se houver um diagnóstico..." formControlName="description"></textarea>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="field-small">
+                      <mat-label>Observações</mat-label>
+                      <textarea matInput rows="1" placeholder="Observações adicionais..." formControlName="observations"></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div class="form-actions-footer">
+                    <button mat-button class="btn-cancel" (click)="toggleForm()">
+                      <mat-icon>chevron_left</mat-icon> Cancelar
+                    </button>
+                    <button mat-raised-button class="btn-save-record" (click)="onSubmit()">Salvar Registro</button>
+                  </div>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <div class="empty-history-state" *ngIf="records.length === 0 && !showForm">
+            <mat-icon>history_edu</mat-icon>
+            <h4>Nenhum registro encontrado</h4>
+            <p>Este paciente ainda não possui histórico clínico cadastrado.</p>
+            <button mat-stroked-button color="primary" (click)="toggleForm()">
+              Criar primeiro registro
+            </button>
+          </div>
+
+          <div class="timeline-item" *ngFor="let record of records">
+          </div>
+
+          <div class="timeline-item" *ngFor="let record of records">
+            <div class="timeline-indicator">
+              <div class="icon-node">
+                <mat-icon>{{ record.type === 'Consulta' ? 'medical_services' : (record.type === 'Retorno' ? 'history' : 'event_note') }}</mat-icon>
+              </div>
+              <div class="line"></div>
+            </div>
+            <mat-card class="list-card timeline-card">
+              <mat-card-content>
+                <div class="record-header">
+                  <div>
+                    <span class="date-text">{{ record.date | date:'dd/MM/yyyy' }}</span>
+                    <h4 class="type-text">{{ record.type }}</h4>
+                  </div>
+                  <div class="record-actions">
+                    <button mat-button class="btn-edit" (click)="editRecord(record)"><mat-icon>edit</mat-icon> Editar</button>
+                    <button mat-button class="btn-delete" (click)="deleteRecord(record.id)"><mat-icon>delete</mat-icon> Excluir</button>
+                  </div>
+                </div>
+                <p class="description">Paciente: <strong>{{ record.description }}</strong></p>
+                <p class="medication">Medicação: <span class="text-muted">{{record.medication}}</span></p>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <div class="loading-more" *ngIf="isLoadingRecords">
+            <mat-spinner diameter="30"></mat-spinner>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
