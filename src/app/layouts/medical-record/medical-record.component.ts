@@ -14,10 +14,10 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 // Services & Models
 import { MedicalRecordService } from '../../services/medical-record/medical-record.service';
@@ -43,7 +43,8 @@ import { Patient } from '../patient/patient.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatAutocompleteModule
   ],
   templateUrl: './medical-record.component.html',
   styleUrls: ['./medical-record.component.scss'],
@@ -52,17 +53,14 @@ import { Patient } from '../patient/patient.component';
   ]
 })
 export class MedicalRecordComponent implements OnInit, OnDestroy {
-  patient: any = {
-    name: '',
-    age: 0,
-    email: '',
-    phoneNumber: '',
-    instagram: '',
-    twitter: ''
-  };
-
+  patient: any = null;
   patientId: string | null = null;
   records: any[] = [];
+
+  // Busca de Pacientes para o Autocomplete (Select2 style)
+  patientsForSelect: Patient[] = [];
+  isLoadingPatients = false;
+  patientSearchControl = new FormControl('');
 
   page = 0;
   size = 10;
@@ -75,6 +73,7 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
   searchControl = new FormControl('');
 
   recordForm = new FormGroup({
+    patientId: new FormControl<string | null>(null),
     type: new FormControl<string | null>('Consulta', [Validators.required]),
     date: new FormControl<Date | null>(new Date(), [Validators.required]),
     description: new FormControl<string | null>('', [Validators.required]),
@@ -91,12 +90,35 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.patientId = this.route.snapshot.paramMap.get('id');
-
-    if (this.patientId) {
-      this.loadPatientData();
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.patientId = params.get('id');
+      
+      if (this.patientId) {
+        this.loadPatientData();
+        this.recordForm.get('patientId')?.setValue(this.patientId);
+        this.recordForm.get('patientId')?.clearValidators();
+      } else {
+        this.patient = null;
+        this.recordForm.get('patientId')?.setValidators([Validators.required]);
+      }
+      this.recordForm.get('patientId')?.updateValueAndValidity();
       this.loadRecords(true);
-    }
+    });
+
+    // Lógica de busca de pacientes para o autocomplete com debounce
+    this.patientSearchControl.valueChanges
+      .pipe(
+        debounceTime(400),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(value => {
+        if (typeof value === 'string' && value.length >= 2) {
+          this.searchPatients(value);
+        } else if (value === '') {
+          this.patientsForSelect = [];
+        }
+      });
 
     this.searchControl.valueChanges
       .pipe(
@@ -107,6 +129,28 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.loadRecords(true);
       });
+  }
+
+  searchPatients(filter: string): void {
+    this.isLoadingPatients = true;
+    this.patientService.getPatients(0, 20, 'name', 'asc', filter).subscribe({
+      next: (page) => {
+        this.patientsForSelect = page.content;
+        this.isLoadingPatients = false;
+      },
+      error: () => {
+        this.isLoadingPatients = false;
+      }
+    });
+  }
+
+  displayPatient(patient: Patient): string {
+    return patient && patient.name ? patient.name : '';
+  }
+
+  onPatientSelected(event: any): void {
+    const patient = event.option.value as Patient;
+    this.recordForm.get('patientId')?.setValue(patient.id || null);
   }
 
   ngOnDestroy(): void {
@@ -136,7 +180,7 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
   }
 
   loadRecords(reset: boolean = false): void {
-    if (!this.patientId || this.isLoadingRecords) return;
+    if (this.isLoadingRecords) return;
 
     if (reset) {
       this.page = 0;
@@ -149,7 +193,7 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
     this.isLoadingRecords = true;
     const filter = this.searchControl.value;
 
-    this.medicalRecordService.getRecordsByPatientId(this.patientId, this.page, this.size, filter).subscribe({
+    this.medicalRecordService.getRecordsByPatientId(this.patientId || '', this.page, this.size, filter).subscribe({
       next: (pageData) => {
         this.records = [...this.records, ...pageData.content];
         this.isLastPage = (pageData.number + 1 >= pageData.totalPages) || (pageData.content.length < this.size);
@@ -180,12 +224,14 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.recordForm.valid && this.patientId) {
+    const finalPatientId = this.patientId || this.recordForm.get('patientId')?.value;
+
+    if (this.recordForm.valid && finalPatientId) {
       this.isSaving = true;
       const formValue = this.recordForm.getRawValue();
 
       const recordData: MedicalRecord = {
-        patientId: this.patientId,
+        patientId: finalPatientId,
         type: formValue.type!,
         date: formValue.date?.toISOString()!,
         description: formValue.description!,
@@ -226,11 +272,19 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
     this.editingRecordId = record.id;
     this.showForm = true;
     this.recordForm.patchValue({
+      patientId: record.patientId,
       type: record.type,
       date: new Date(record.date),
       description: record.description,
       observations: record.observations || ''
     });
+    
+    if (!this.patientId) {
+      this.patientService.getById(record.patientId).subscribe(p => {
+        this.patientSearchControl.setValue(p as any);
+      });
+    }
+
     const container = document.querySelector('.scrollable-history-container');
     if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -238,6 +292,7 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
   cancelEdit(): void {
     this.editingRecordId = null;
     this.recordForm.reset({ type: 'Consulta', date: new Date() });
+    this.patientSearchControl.setValue('');
     this.showForm = false;
   }
 

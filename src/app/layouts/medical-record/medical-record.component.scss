@@ -123,6 +123,10 @@ $white: #ffffff;
 /* --- Coluna Direita: Histórico e Ações --- */
 .history-section {
   width: 100%;
+
+  &.full-width {
+    grid-column: 1 / -1;
+  }
 }
 
 .action-header {

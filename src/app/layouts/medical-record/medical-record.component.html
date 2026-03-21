@@ -12,7 +12,7 @@
   </div>
 
   <div class="content-container">
-    <mat-card class="form-card side-info">
+    <mat-card class="form-card side-info" *ngIf="patient">
       <mat-card-header>
         <mat-card-title class="cadastro">Dados do Paciente</mat-card-title>
       </mat-card-header>
@@ -34,13 +34,13 @@
       </mat-card-content>
     </mat-card>
 
-    <div class="history-section">
+    <div class="history-section" [ngClass]="{'full-width': !patient}">
       <div class="action-header">
         <div class="search-bar">
           <mat-icon>search</mat-icon>
           <input type="text" placeholder="Buscar no prontuário..." [formControl]="searchControl">
         </div>
-        <button mat-raised-button class="btn-new-record" (click)="toggleForm()">
+        <button mat-raised-button class="btn-new-record" (click)="toggleForm()" *ngIf="patient">
           <mat-icon>add</mat-icon> Novo Registro
         </button>
       </div>
@@ -59,6 +59,26 @@
               <mat-card-content>
                 <h4 class="form-title">Novo Registro no Prontuário</h4>
                 <form [formGroup]="recordForm" class="record-form-container">
+                  <div class="form-row" *ngIf="!patientId">
+                    <mat-form-field appearance="outline" class="w-100">
+                      <mat-label>Pesquisar Paciente</mat-label>
+                      <input type="text"
+                             placeholder="Digite o nome do paciente..."
+                             matInput
+                             [formControl]="patientSearchControl"
+                             [matAutocomplete]="auto">
+                      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayPatient" (optionSelected)="onPatientSelected($event)">
+                        <mat-option *ngIf="isLoadingPatients" class="is-loading">
+                          <mat-spinner diameter="20"></mat-spinner>
+                        </mat-option>
+                        <mat-option *ngFor="let p of patientsForSelect" [value]="p">
+                          {{p.name}} ({{p.email}})
+                        </mat-option>
+                      </mat-autocomplete>
+                      <mat-icon matSuffix *ngIf="!isLoadingPatients">person_search</mat-icon>
+                      <mat-error *ngIf="recordForm.get('patientId')?.hasError('required')">Selecione um paciente</mat-error>
+                    </mat-form-field>
+                  </div>
                   <div class="form-row">
                     <mat-form-field appearance="outline" class="field-half">
                       <mat-label>Tipo de Atendimento</mat-label>
