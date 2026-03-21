@@ -137,10 +137,11 @@ export class PatientComponent implements AfterViewInit, OnInit {
           },
           error: (error) => {
             console.error('Erro ao processar paciente:', error);
-            const errorMessage = this.editingPatientId ? 'Erro ao atualizar paciente.' : 'Erro ao salvar paciente.';
-            this.snackBar.open(errorMessage + ' Tente novamente.', 'Fechar', {
-              duration: 5000,
-            });
+            if (error.status !== 0 && error.error?.message) {
+              this.snackBar.open(error.error.message, 'Fechar', {
+                duration: 5000,
+              });
+            }
           }
         });
     }
@@ -206,7 +207,9 @@ export class PatientComponent implements AfterViewInit, OnInit {
           error: (error) => {
             console.error('Erro ao excluir:', error);
             patient.isDeleting = false; // Remove o risco em caso de erro
-            this.snackBar.open('Erro ao excluir paciente.', 'Fechar', { duration: 5000 });
+            if (error.status !== 0 && error.error?.message) {
+              this.snackBar.open(error.error.message, 'Fechar', { duration: 5000 });
+            }
           }
         });
       }

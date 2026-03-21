@@ -42,11 +42,13 @@ export class MainLayoutComponent implements OnInit{
         this.newNotificationsCount = notifications.length;
       },
       error: error => {
-        this.snackBar.open('Erro ao buscar notificações', 'Fechar', {
-          duration: 6000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'start'
-        });
+        if (error.status !== 0 && error.error?.message) {
+          this.snackBar.open(error.error.message, 'Fechar', {
+            duration: 6000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'start'
+          });
+        }
       }
     });
   }
@@ -60,11 +62,13 @@ export class MainLayoutComponent implements OnInit{
         this.newNotificationsCount = notifications.length;
       },
       error: error => {
-        this.snackBar.open('Erro ao buscar notificações', 'Fechar', {
-          duration: 6000,
-          verticalPosition: 'bottom',
-          horizontalPosition: 'start'
-        });
+        if (error.status !== 0 && error.error?.message) {
+          this.snackBar.open(error.error.message, 'Fechar', {
+            duration: 6000,
+            verticalPosition: 'bottom',
+            horizontalPosition: 'start'
+          });
+        }
       }
     });
   }

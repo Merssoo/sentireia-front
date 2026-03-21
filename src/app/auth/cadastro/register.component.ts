@@ -81,11 +81,13 @@ export class CadastroComponent implements OnInit {
             this.router.navigate(['/confirm-code']);
           },
           error: (error) => {
-            this.snackBar.open(error.error.message, 'Fechar', {
-              duration: 4000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'start'
-            });
+            if (error.status !== 0 && error.error?.message) {
+              this.snackBar.open(error.error.message, 'Fechar', {
+                duration: 4000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'start'
+              });
+            }
           }
         });
       }

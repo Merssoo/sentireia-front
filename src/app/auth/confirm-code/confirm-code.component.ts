@@ -47,11 +47,13 @@ export class ConfirmCodeComponent implements OnInit{
             this.router.navigate(['/login']);
           },
           error: (error) => {
-            this.snackBar.open(error.error, 'Fechar', {
-              duration: 4000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'start'
-            });
+            if (error.status !== 0 && error.error?.message) {
+              this.snackBar.open(error.error.message, 'Fechar', {
+                duration: 4000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'start'
+              });
+            }
           }
       })
 
@@ -70,11 +72,13 @@ export class ConfirmCodeComponent implements OnInit{
           });
         },
         error: (error) => {
-          this.snackBar.open(error.error.message, 'Fechar', {
-            duration: 4000,
-            verticalPosition: 'bottom',
-            horizontalPosition: 'start'
-          });
+          if (error.status !== 0 && error.error?.message) {
+            this.snackBar.open(error.error.message, 'Fechar', {
+              duration: 4000,
+              verticalPosition: 'bottom',
+              horizontalPosition: 'start'
+            });
+          }
         }
     })
   }
