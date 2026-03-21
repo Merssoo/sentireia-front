@@ -18,7 +18,7 @@ import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { CadastroComponent } from './auth/cadastro/register.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ConfirmCodeComponent } from './auth/confirm-code/confirm-code.component';
 import { ResendCodeComponent } from './auth/resend-code/resend-code.component'; 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -58,7 +58,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatFormFieldModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule ,
+    MatNativeDateModule,
     MatIconModule,
     MatProgressSpinnerModule, 
     MatToolbarModule,
@@ -71,11 +71,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSortModule,
     MatTooltipModule
   ],
-  providers: [{
+  providers: [
+    {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }],
+    },
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

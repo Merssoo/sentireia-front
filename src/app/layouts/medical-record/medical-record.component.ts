@@ -17,6 +17,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+
+// Services & Models
+import { MedicalRecordService } from '../../services/medical-record/medical-record.service';
+import { PatientService } from '../../services/patient/patient.service';
+import { MedicalRecord } from 'src/app/models/medical-record.model';
+import { Patient } from '../patient/patient.component';
 
 @Component({
   selector: 'app-medical-record',
@@ -39,24 +46,27 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTooltipModule
   ],
   templateUrl: './medical-record.component.html',
-  styleUrls: ['./medical-record.component.scss']
+  styleUrls: ['./medical-record.component.scss'],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
+  ]
 })
 export class MedicalRecordComponent implements OnInit, OnDestroy {
-  // Dados simulados do Paciente
   patient: any = {
-    name: 'João da Silva',
-    age: 34,
-    email: 'joao@email.com',
-    phoneNumber: '(48) 99999-9999',
-    instagram: '@joao',
-    twitter: '@joao'
+    name: '',
+    age: 0,
+    email: '',
+    phoneNumber: '',
+    instagram: '',
+    twitter: ''
   };
 
-  // Histórico de registros simulado (Mock)
-  records: any[] = [
+  patientId: string | null = null;
+  records: any[] = [];
 
-  ];
-
+  page = 0;
+  size = 10;
+  isLastPage = false;
   isLoadingRecords = false;
   isSaving = false;
   showForm = false;
@@ -64,7 +74,6 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
 
   searchControl = new FormControl('');
 
-  // Formulário alinhado com o layout flexbox do HTML
   recordForm = new FormGroup({
     type: new FormControl<string | null>('Consulta', [Validators.required]),
     date: new FormControl<Date | null>(new Date(), [Validators.required]),
@@ -74,19 +83,29 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
 
   private destroy$ = new Subject<void>();
 
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(
+    private route: ActivatedRoute,
+    private medicalRecordService: MedicalRecordService,
+    private patientService: PatientService,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    // Filtro da barra de busca
+    this.patientId = this.route.snapshot.paramMap.get('id');
+
+    if (this.patientId) {
+      this.loadPatientData();
+      this.loadRecords(true);
+    }
+
     this.searchControl.valueChanges
       .pipe(
         debounceTime(400),
         distinctUntilChanged(),
         takeUntil(this.destroy$)
       )
-      .subscribe(value => {
-        console.log('Filtrando por:', value);
-        // Lógica de filtro aqui
+      .subscribe(() => {
+        this.loadRecords(true);
       });
   }
 
@@ -95,32 +114,62 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  // --- LÓGICA DE SCROLL INFINITO ---
-  onScroll(event: any): void {
-    const element = event.target;
-    // Detecta se chegou ao fim da div branca (com margem de 50px)
-    if (element.scrollHeight - element.scrollTop <= element.clientHeight + 50) {
-      if (!this.isLoadingRecords) {
-        this.loadMoreRecords();
-      }
-    }
+  private handleError(error: any, defaultMessage: string): void {
+    const message = (error.status !== 0 && error.error?.message) ? error.error.message : defaultMessage;
+    this.snackBar.open(message, 'Fechar', {
+      duration: 6000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'start'
+    });
   }
 
-  loadMoreRecords(): void {
+  loadPatientData(): void {
+    if (!this.patientId) return;
+    this.patientService.getById(this.patientId).subscribe({
+      next: (data) => {
+        this.patient = data;
+      },
+      error: (error) => {
+        this.handleError(error, 'Erro ao carregar dados do paciente.');
+      }
+    });
+  }
+
+  loadRecords(reset: boolean = false): void {
+    if (!this.patientId || this.isLoadingRecords) return;
+
+    if (reset) {
+      this.page = 0;
+      this.records = [];
+      this.isLastPage = false;
+    }
+
+    if (this.isLastPage && !reset) return;
+
     this.isLoadingRecords = true;
-    setTimeout(() => {
-      const olderRecords = [
-        {
-          id: Math.random().toString(),
-          date: new Date('2026-01-05'),
-          type: 'Consulta',
-          description: 'Registro antigo carregado via scroll.',
-          medication: 'Fluoxetina 20mg'
-        }
-      ];
-      this.records = [...this.records, ...olderRecords];
-      this.isLoadingRecords = false;
-    }, 1000);
+    const filter = this.searchControl.value;
+
+    this.medicalRecordService.getRecordsByPatientId(this.patientId, this.page, this.size, filter).subscribe({
+      next: (pageData) => {
+        this.records = [...this.records, ...pageData.content];
+        this.isLastPage = (pageData.number + 1 >= pageData.totalPages) || (pageData.content.length < this.size);
+        this.isLoadingRecords = false;
+        this.page++;
+      },
+      error: (error) => {
+        this.handleError(error, 'Erro ao carregar histórico.');
+        this.isLoadingRecords = false;
+      }
+    });
+  }
+
+  onScroll(event: any): void {
+    const element = event.target;
+    if (element.scrollHeight - element.scrollTop <= element.clientHeight + 50) {
+      if (!this.isLoadingRecords && !this.isLastPage) {
+        this.loadRecords();
+      }
+    }
   }
 
   toggleForm(): void {
@@ -131,29 +180,45 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.recordForm.valid) {
+    if (this.recordForm.valid && this.patientId) {
       this.isSaving = true;
+      const formValue = this.recordForm.getRawValue();
 
-      setTimeout(() => {
-        const formValue = this.recordForm.getRawValue();
+      const recordData: MedicalRecord = {
+        patientId: this.patientId,
+        type: formValue.type!,
+        date: formValue.date?.toISOString()!,
+        description: formValue.description!,
+        observations: formValue.observations ?? undefined,
+        id: this.editingRecordId ?? undefined
+      };
 
-        if (this.editingRecordId) {
-          const index = this.records.findIndex(r => r.id === this.editingRecordId);
-          this.records[index] = { ...this.records[index], ...formValue };
-          this.snackBar.open('Registro atualizado!', 'Fechar', { duration: 2000 });
-        } else {
-          const newRecord = {
-            id: Math.random().toString(),
-            ...formValue,
-            medication: 'Nenhuma'
-          };
-          this.records.unshift(newRecord); // Novo registro no topo
-          this.snackBar.open('Registro salvo!', 'Fechar', { duration: 2000 });
+      const request = this.editingRecordId
+        ? this.medicalRecordService.update(recordData)
+        : this.medicalRecordService.save(recordData);
+
+      request.subscribe({
+        next: (data) => {
+          this.snackBar.open(
+            this.editingRecordId ? 'Registro atualizado!' : 'Registro salvo!',
+            'Fechar', { duration: 2000 }
+          );
+
+          if (this.editingRecordId) {
+            const index = this.records.findIndex(r => r.id === this.editingRecordId);
+            if (index !== -1) this.records[index] = data;
+          } else {
+            this.records.unshift(data);
+          }
+
+          this.isSaving = false;
+          this.cancelEdit();
+        },
+        error: (error) => {
+          this.handleError(error, 'Erro ao salvar registro.');
+          this.isSaving = false;
         }
-
-        this.isSaving = false;
-        this.cancelEdit();
-      }, 600);
+      });
     }
   }
 
@@ -166,6 +231,8 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
       description: record.description,
       observations: record.observations || ''
     });
+    const container = document.querySelector('.scrollable-history-container');
+    if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   cancelEdit(): void {
@@ -175,9 +242,17 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
   }
 
   deleteRecord(id: string): void {
+    if (!id) return;
     if (confirm('Excluir este registro permanentemente?')) {
-      this.records = this.records.filter(r => r.id !== id);
-      this.snackBar.open('Registro removido.', 'OK', { duration: 2000 });
+      this.medicalRecordService.delete(id).subscribe({
+        next: () => {
+          this.snackBar.open('Registro removido.', 'OK', { duration: 2000 });
+          this.loadRecords(true);
+        },
+        error: (error) => {
+          this.handleError(error, 'Erro ao excluir registro.');
+        }
+      });
     }
   }
 }

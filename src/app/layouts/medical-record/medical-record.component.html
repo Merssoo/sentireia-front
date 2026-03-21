@@ -105,9 +105,6 @@
           </div>
 
           <div class="timeline-item" *ngFor="let record of records">
-          </div>
-
-          <div class="timeline-item" *ngFor="let record of records">
             <div class="timeline-indicator">
               <div class="icon-node">
                 <mat-icon>{{ record.type === 'Consulta' ? 'medical_services' : (record.type === 'Retorno' ? 'history' : 'event_note') }}</mat-icon>
@@ -126,13 +123,13 @@
                     <button mat-button class="btn-delete" (click)="deleteRecord(record.id)"><mat-icon>delete</mat-icon> Excluir</button>
                   </div>
                 </div>
-                <p class="description">Paciente: <strong>{{ record.description }}</strong></p>
-                <p class="medication">Medicação: <span class="text-muted">{{record.medication}}</span></p>
+                <p class="description">Descrição: <strong>{{ record.description }}</strong></p>
+                <p class="observations" *ngIf="record.observations">Obs: <span class="text-muted">{{record.observations}}</span></p>
               </mat-card-content>
             </mat-card>
           </div>
 
-          <div class="loading-more" *ngIf="isLoadingRecords">
+          <div class="loading-more" *ngIf="isLoadingRecords && records.length > 0">
             <mat-spinner diameter="30"></mat-spinner>
           </div>
 
