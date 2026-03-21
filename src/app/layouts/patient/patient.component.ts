@@ -177,11 +177,8 @@ export class PatientComponent implements AfterViewInit, OnInit {
 
   deletePatient(patient: Patient): void {
     if (!patient.id) return;
-
-    // Inicia o estado de exclusão (ativando o risco visual no HTML)
     patient.isDeleting = true;
 
-    // Abre o SnackBar no canto inferior esquerdo
     const snackBarRef = this.snackBar.open(`Removendo ${patient.name}...`, 'DESFAZER', {
       duration: 5000,
       horizontalPosition: 'left',
@@ -189,16 +186,12 @@ export class PatientComponent implements AfterViewInit, OnInit {
     });
 
     let isUndone = false;
-
-    // Se clicar em DESFAZER
     snackBarRef.onAction().subscribe(() => {
       isUndone = true;
-      patient.isDeleting = false; // Remove o risco visual
+      patient.isDeleting = false;
     });
 
-    // Ao fechar o SnackBar
     snackBarRef.afterDismissed().subscribe((dismiss) => {
-      // Só executa a exclusão se o SnackBar fechou por tempo (não por clique no Desfazer)
       if (!isUndone && !dismiss.dismissedByAction) {
         this.patientService.delete(patient.id!).subscribe({
           next: () => {

@@ -92,7 +92,7 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.patientId = params.get('id');
-      
+
       if (this.patientId) {
         this.loadPatientData();
         this.recordForm.get('patientId')?.setValue(this.patientId);
@@ -278,7 +278,7 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
       description: record.description,
       observations: record.observations || ''
     });
-    
+
     if (!this.patientId) {
       this.patientService.getById(record.patientId).subscribe(p => {
         this.patientSearchControl.setValue(p as any);
@@ -296,18 +296,33 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
     this.showForm = false;
   }
 
-  deleteRecord(id: string): void {
-    if (!id) return;
-    if (confirm('Excluir este registro permanentemente?')) {
-      this.medicalRecordService.delete(id).subscribe({
-        next: () => {
-          this.snackBar.open('Registro removido.', 'OK', { duration: 2000 });
-          this.loadRecords(true);
-        },
-        error: (error) => {
-          this.handleError(error, 'Erro ao excluir registro.');
-        }
-      });
-    }
+  deleteRecord(record: any): void {
+    if (!record.id) return;
+
+    const snackBarRef = this.snackBar.open(
+      `Deseja excluir o registro de ${record.type}?`,
+      'CONFIRMAR',
+      {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        panelClass: ['snackbar-warning']
+      }
+    );
+    snackBarRef.onAction().subscribe(() => {
+      this.executeDeletion(record.id);
+    });
+  }
+
+  private executeDeletion(id: string): void {
+    this.medicalRecordService.delete(id).subscribe({
+      next: () => {
+        this.snackBar.open('Registro removido com sucesso.', 'OK', { duration: 2000 });
+        this.loadRecords(true); // Recarrega a lista
+      },
+      error: (error) => {
+        this.handleError(error, 'Erro ao excluir registro.');
+      }
+    });
   }
 }
