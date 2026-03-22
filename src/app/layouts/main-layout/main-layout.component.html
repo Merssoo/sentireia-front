@@ -66,8 +66,13 @@
           <mat-spinner diameter="30"></mat-spinner>
         </div>
         <div *ngIf="!isLoading && notifications.length > 0">
-          <button mat-menu-item *ngFor="let notif of notifications">
-            <mat-icon>info</mat-icon> {{ notif.message }}
+          <button mat-menu-item *ngFor="let notif of notifications" class="custom-notification-item">
+            <div class="notification-content-wrapper">
+              <mat-icon color="primary">info</mat-icon>
+              <div class="text-wrapper">
+                <span class="message-text">{{ notif.message }}</span>
+              </div>
+            </div>
           </button>
           <mat-divider></mat-divider>
           <button mat-menu-item (click)="clearNotifications()">

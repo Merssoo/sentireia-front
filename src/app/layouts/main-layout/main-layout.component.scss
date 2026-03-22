@@ -14,9 +14,9 @@
 
 
 .logo {
-  font-family: 'Georgia', serif; 
+  font-family: 'Georgia', serif;
   font-size: 3rem;
-  color: #94b6a5; 
+  color: #94b6a5;
 }
 
 .spacer {
@@ -72,7 +72,7 @@
 }
 
 .app-sidenav {
-  background-color: #3b5f4f; 
+  background-color: #3b5f4f;
   width: 200px;
 }
 
@@ -106,7 +106,6 @@
 }
 
 
-// Adicionado para responsividade entre 961px e 1200px
 @media (max-width: 1200px) {
   .nav-links {
     display: none !important;
@@ -117,3 +116,33 @@
   }
 }
 
+:host ::ng-deep .custom-notification-item {
+  height: auto !important;
+  min-height: 64px !important;
+  padding: 8px 16px !important;
+}
+
+:host ::ng-deep .custom-notification-item .notification-content-wrapper {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 12px;
+  width: 100%;
+}
+
+:host ::ng-deep .custom-notification-item mat-icon {
+  margin: 0 !important;
+  padding-top: 4px;
+  flex-shrink: 0;
+}
+
+:host ::ng-deep .custom-notification-item .text-wrapper {
+  white-space: normal !important;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+}
+
+:host ::ng-deep .custom-notification-item .message-text {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
+}
