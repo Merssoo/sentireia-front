@@ -325,4 +325,12 @@ export class MedicalRecordComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  getIcon(type: string): string {
+    switch (type.toLowerCase()) {
+      case 'consulta': return 'medical_services';
+      case 'retorno': return 'history';
+      default: return 'event';
+    }
+  }
 }

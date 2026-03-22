@@ -1,0 +1,146 @@
+<div class="main-container">
+  <div class="header-wrapper">
+    <div class="header-section">
+      <div class="header-icon-container">
+        <mat-icon>calendar_month</mat-icon>
+      </div>
+      <div class="header-text">
+        <h2 class="page-title">Agendamentos</h2>
+        <p class="page-subtitle">Gerencie as consultas e compromissos dos seus pacientes</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <mat-card class="form-card side-info">
+      <mat-card-header>
+        <mat-card-title class="cadastro">Calendário</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-calendar [(selected)]="selectedDate" (selectedChange)="onDateChange($event)"></mat-calendar>
+
+        <div class="calendar-legend">
+          <div class="legend-item"><span class="dot consulta"></span> Consulta</div>
+          <div class="legend-item"><span class="dot retorno"></span> Retorno</div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="history-section">
+      <div class="action-header">
+        <div class="search-bar">
+          <mat-icon>search</mat-icon>
+          <input type="text" placeholder="Buscar agendamento..." [formControl]="searchControl">
+        </div>
+        <button mat-raised-button class="btn-new-record" (click)="openAppointmentForm()">
+          <mat-icon>add</mat-icon>
+          Novo Agendamento
+        </button>
+      </div>
+
+      <h3 class="list-title">Agendamentos - {{ selectedDate | date:'dd/MM/yyyy' }}</h3>
+
+      <div class="scrollable-history-container">
+        <div class="timeline-wrapper">
+
+          <div class="timeline-item" *ngIf="showForm">
+            <div class="timeline-indicator">
+              <div class="icon-node empty"><mat-icon>add</mat-icon></div>
+              <div class="line"></div>
+            </div>
+            <mat-card class="list-card timeline-card form-new-record">
+              <mat-card-content>
+                <h4 class="form-title">{{ editingId ? 'Editar' : 'Novo' }} Agendamento</h4>
+                <form [formGroup]="appointmentForm" class="record-form-container">
+
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Paciente</mat-label>
+                    <input type="text" matInput [formControl]="patientSearchControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayPatient" (optionSelected)="onPatientSelected($event)">
+                      <mat-option *ngFor="let p of patientsForSelect" [value]="p">{{ p.name }}</mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="field-half">
+                      <mat-label>Tipo</mat-label>
+                      <mat-select formControlName="type">
+                        <mat-option value="Consulta">Consulta</mat-option>
+                        <mat-option value="Retorno">Retorno</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="field-half">
+                      <mat-label>Data</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName="date" readonly (click)="picker.open()">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="field-half time-field">
+                      <mat-label>Hora</mat-label>
+                      <input matInput type="time" formControlName="time" #timeInput>
+                      <mat-icon matSuffix (click)="timeInput.showPicker()" style="cursor: pointer;">access_time</mat-icon>
+                    </mat-form-field>
+                  </div>
+
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Notas/Observações</mat-label>
+                    <textarea matInput formControlName="notes" rows="2"></textarea>
+                  </mat-form-field>
+
+                  <div class="form-actions-footer">
+                    <button mat-button (click)="toggleForm()">Cancelar</button>
+                    <button mat-raised-button class="btn-save-record" (click)="onSubmit()" [disabled]="isSaving">
+                      {{ isSaving ? 'Salvando...' : 'Salvar Agendamento' }}
+                    </button>
+                  </div>
+                </form>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <div class="timeline-item" *ngFor="let appt of filteredAppointments">
+            <div class="timeline-indicator">
+              <span class="time-label">{{ appt.time }}</span>
+              <div class="icon-node" [ngClass]="appt.type.toLowerCase()">
+                <mat-icon>{{ getIcon(appt.type) }}</mat-icon>
+              </div>
+              <div class="line"></div>
+            </div>
+
+            <mat-card class="list-card timeline-card">
+              <mat-card-content>
+                <div class="record-header">
+                  <div class="header-info-group">
+                    <span class="patient-name-label">{{ appt.patientName }}</span>
+                    <span class="date-text">
+                       <span class="separator">•</span>
+                       Status: Confirmado
+                    </span>
+                    <h4 class="type-text">{{ appt.type }}</h4>
+                  </div>
+                  <div class="record-actions">
+                    <button mat-button class="btn-edit" (click)="editAppointment(appt)">
+                      <mat-icon>edit</mat-icon> Editar
+                    </button>
+                    <button mat-button class="btn-delete" (click)="deleteAppointment(appt)">
+                      <mat-icon>delete</mat-icon> Excluir
+                    </button>
+                  </div>
+                </div>
+                <p class="description">Nota: <strong>{{ appt.notes }}</strong></p>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <div class="empty-history-state" *ngIf="filteredAppointments.length === 0">
+            <mat-icon>event_busy</mat-icon>
+            <h4>Nenhum agendamento encontrado</h4>
+            <p>Não há compromissos para esta data selecionada.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

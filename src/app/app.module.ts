@@ -20,7 +20,7 @@ import { CadastroComponent } from './auth/cadastro/register.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { ConfirmCodeComponent } from './auth/confirm-code/confirm-code.component';
-import { ResendCodeComponent } from './auth/resend-code/resend-code.component'; 
+import { ResendCodeComponent } from './auth/resend-code/resend-code.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -34,6 +34,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AppointmentComponent } from './layouts/appointment/appointment.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ConfirmCodeComponent,
     ResendCodeComponent,
     DashboardComponent,
-    PatientComponent
+    PatientComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +61,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    MatProgressSpinnerModule, 
+    MatProgressSpinnerModule,
     MatToolbarModule,
     MatMenuModule,
     MatSidenavModule,
@@ -69,7 +70,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTooltipModule
+    MatTooltipModule,
+    AppointmentComponent
   ],
   providers: [
     {

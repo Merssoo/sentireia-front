@@ -141,8 +141,8 @@
 
           <div class="timeline-item" *ngFor="let record of records">
             <div class="timeline-indicator">
-              <div class="icon-node">
-                <mat-icon>{{ record.type === 'Consulta' ? 'medical_services' : (record.type === 'Retorno' ? 'history' : 'event_note') }}</mat-icon>
+              <div class="icon-node" [ngClass]="record.type.toLowerCase()">
+                <mat-icon>{{ getIcon(record.type) }}</mat-icon>
               </div>
               <div class="line"></div>
             </div>

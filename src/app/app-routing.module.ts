@@ -9,6 +9,7 @@ import { ResendCodeComponent } from './auth/resend-code/resend-code.component';
 import { DashboardComponent } from './layouts/dashboard/dashboard.component';
 import { PatientComponent } from './layouts/patient/patient.component';
 import { MedicalRecordComponent } from './layouts/medical-record/medical-record.component';
+import {AppointmentComponent} from "./layouts/appointment/appointment.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,11 +24,12 @@ const routes: Routes = [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'patient', component: PatientComponent},
       { path: 'medical-record', component: MedicalRecordComponent},
+      { path: 'appointment', component: AppointmentComponent},
       { path: 'medical-record/:id', component: MedicalRecordComponent},
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
-  
+
   { path: '**', redirectTo: 'login' }
 ];
 

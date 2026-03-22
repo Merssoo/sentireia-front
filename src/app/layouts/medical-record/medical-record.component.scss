@@ -189,27 +189,30 @@ $white: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-width: 60px;
+
+    .time-label {
+      font-weight: 800;
+      color: #333;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
 
     .icon-node {
       width: 40px;
       height: 40px;
       border-radius: 50%;
       background: $white;
-      border: 2px solid $primary-green;
+      border: 2px solid $border-color;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: $primary-green;
       z-index: 2;
 
-      &.empty { border-color: $border-color; color: #ccc; }
+      &.consulta { border-color: $primary-green; color: $primary-green; }
+      &.retorno { border-color: #3498db; color: #3498db; }
     }
-    .line {
-      width: 2px;
-      flex-grow: 1;
-      background: $border-color;
-      margin-top: -5px;
-    }
+    .line { width: 2px; flex-grow: 1; background: $border-color; margin-top: -5px; }
   }
 
   .timeline-card {
@@ -217,10 +220,6 @@ $white: #ffffff;
     margin-bottom: 20px;
     border-radius: 12px !important;
     border: 1px solid $border-color !important;
-
-    &.form-new-record {
-      border-left: 4px solid $primary-green !important;
-    }
   }
 }
 
