@@ -2,7 +2,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import {EMPTY, Observable, throwError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
     private snackBar: MatSnackBar
   ) {}
@@ -53,17 +53,26 @@ export class AuthInterceptor implements HttpInterceptor {
   private handleWithGlobalErrors(observable: Observable<HttpEvent<any>>): Observable<HttpEvent<any>> {
     return observable.pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 0) {
-          this.snackBar.open(
-            'Ocorreu um problema ao se comunicar com o servidor. Por favor, tente novamente em alguns instantes.', 
-            'Fechar', 
-            {
-              duration: 6000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'start'
-            }
-          );
+
+        const isCadastroPath = this.router.url.includes('/cadastro-clinica');
+
+        if ((error.status === 403 || error.status === 0) && this.authService.getClinicId() === null ) {
+          this.snackBar.open('Atenção: Você precisa cadastrar uma clínica para prosseguir.', 'OK', {
+            duration: 5000,
+          });
+          this.router.navigate(['/cadastro-clinica']);
+          return EMPTY;
         }
+
+        if (error.status === 0 && !this.authService.getClinicId() === null ) {
+          this.snackBar.open('Problema ao se comunicar com o servidor.', 'Fechar', { duration: 6000 });
+        }
+
+        if (error.status === 401) {
+          this.authService.logout();
+          this.router.navigate(['/login']);
+        }
+
         return throwError(() => error);
       })
     );

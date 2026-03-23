@@ -35,6 +35,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppointmentComponent } from './layouts/appointment/appointment.component';
+import { ClinicRegistrationComponent } from './auth/clinic-registration/clinic-registration.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { AppointmentComponent } from './layouts/appointment/appointment.componen
     ResendCodeComponent,
     DashboardComponent,
     PatientComponent,
+    ClinicRegistrationComponent
   ],
   imports: [
     BrowserModule,

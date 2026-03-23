@@ -112,4 +112,19 @@ export class AuthService {
     localStorage.removeItem('email');
     localStorage.removeItem('userId');
   }
+
+  getClinicId(): string | null {
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.clinicId ? payload.clinicId.toString() : null;
+    } catch (e) {
+      console.error('Erro ao decodificar clinicId do token', e);
+      return null;
+    }
+  }
 }

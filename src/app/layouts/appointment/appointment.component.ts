@@ -145,7 +145,6 @@ export class AppointmentComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (pageData) => {
           this.appointments = [...this.appointments, ...pageData.content];
-          // Resolve o erro: Property 'last' does not exist (usando lógica segura)
           this.isLastPage = (pageData.number + 1 >= pageData.totalPages) || (pageData.content.length < this.size);
           this.page++;
           this.isLoading = false;

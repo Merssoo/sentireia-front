@@ -1,0 +1,36 @@
+<div class="login-container">
+  <div class="logo">
+    <h1>SentireIA</h1>
+  </div>
+
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title class="mat-card-title">Cadastrar Clínica</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p class="description">Você precisa cadastrar uma clínica antes de começar.</p>
+      <form [formGroup]="clinicForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width-input">
+          <mat-label>Nome da Clínica</mat-label>
+          <input matInput type="text" formControlName="name" required>
+          <mat-error *ngIf="clinicForm.get('name')?.hasError('required')">
+            O nome da clínica é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="clinicForm.get('name')?.hasError('minlength')">
+            O nome deve ter no mínimo 3 caracteres.
+          </mat-error>
+        </mat-form-field>
+
+        <button mat-flat-button color="primary" type="submit" [disabled]="clinicForm.invalid">
+          <span *ngIf="!isLoading">Cadastrar</span>
+          <mat-spinner *ngIf="isLoading" [diameter]="30"></mat-spinner>
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="register-link">
+      <span>Já tem uma clínica? <a routerLink="/login">Faça Login</a></span>
+    </mat-card-actions>
+  </mat-card>
+</div>
